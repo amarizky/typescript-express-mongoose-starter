@@ -1,6 +1,7 @@
 import { plainToInstance } from 'class-transformer';
-import { validateOrReject, ValidationError } from 'class-validator';
+import { ValidationError, validateOrReject } from 'class-validator';
 import { NextFunction, Request, Response } from 'express';
+
 import { HttpException } from '@exceptions/httpException';
 
 /**
