@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import { createUserSchema, updateUserSchema } from 'validation/users.schema';
 
 import { UserController } from '@controllers/users.controller';
 import { Routes } from '@interfaces/routes.interface';
 import { ValidationMiddleware } from '@middlewares/validation.middleware';
+import { createUserSchema, updateUserSchema } from '@validation/users.schema';
 
 export class UserRoute implements Routes {
   public path = '/users';

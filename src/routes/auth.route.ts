@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import { createUserSchema } from 'validation/users.schema';
 
 import { AuthController } from '@controllers/auth.controller';
 import { Routes } from '@interfaces/routes.interface';
 import { AuthMiddleware } from '@middlewares/auth.middleware';
 import { ValidationMiddleware } from '@middlewares/validation.middleware';
+import { createUserSchema } from '@validation/users.schema';
 
 export class AuthRoute implements Routes {
   public path = '/';
