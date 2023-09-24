@@ -19,20 +19,15 @@ const getAuthorization = req => {
 export const AuthMiddleware = async (req: RequestWithUser, res: Response, next: NextFunction) => {
   try {
     const Authorization = getAuthorization(req);
+    if (!Authorization) next(new HttpException(403, 'Authentication token is missing'));
 
-    if (Authorization) {
-      const { _id } = verify(Authorization, SECRET_KEY) as DataStoredInToken;
-      const findUser = await UserModel.findById(_id);
+    const { _id } = verify(Authorization, SECRET_KEY) as DataStoredInToken;
+    const findUser = await UserModel.findById(_id);
 
-      if (findUser) {
-        req.user = findUser;
-        next();
-      } else {
-        next(new HttpException(401, 'Wrong authentication token'));
-      }
-    } else {
-      next(new HttpException(404, 'Authentication token missing'));
-    }
+    if (!findUser) next(new HttpException(401, 'Wrong authentication token'));
+
+    req.user = findUser;
+    next();
   } catch (error) {
     next(new HttpException(401, 'Wrong authentication token'));
   }
