@@ -33,10 +33,10 @@ export class AuthService {
 
   public async login(userData: User): Promise<{ cookie: string; findUser: User }> {
     const findUser: User = await UserModel.findOne({ email: userData.email });
-    if (!findUser) throw new HttpException(409, `This email ${userData.email} was not found`);
+    if (!findUser) throw new HttpException(404, `This email ${userData.email} was not found`);
 
     const isPasswordMatching: boolean = await compare(userData.password, findUser.password);
-    if (!isPasswordMatching) throw new HttpException(409, 'Password is not matching');
+    if (!isPasswordMatching) throw new HttpException(404, 'Password is not matching');
 
     const tokenData = createToken(findUser);
     const cookie = createCookie(tokenData);
@@ -46,7 +46,7 @@ export class AuthService {
 
   public async logout(userData: User): Promise<User> {
     const findUser: User = await UserModel.findOne({ email: userData.email, password: userData.password });
-    if (!findUser) throw new HttpException(409, `This email ${userData.email} was not found`);
+    if (!findUser) throw new HttpException(404, `This email ${userData.email} was not found`);
 
     return findUser;
   }
